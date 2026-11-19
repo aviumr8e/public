@@ -16,9 +16,6 @@
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- jsPDF for direct client-side PDF binary generation & immediate blob download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Prevent Flash of Unstyled Theme (FOUC) on initial load -->
     <script>
@@ -72,7 +69,6 @@
     </script>
 
     <style>
-        /* Custom subtle scrollbar and theme-aware surfaces */
         body {
             background-color: #f4f9ff;
             color: #0f172a;
@@ -121,10 +117,17 @@
     <header class="sticky top-0 z-40 glass-nav border-b border-sky-100 dark:border-slate-800 transition-colors duration-200">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Brand / Monogram -->
+                <!-- Brand / Custom Profile Photo -->
                 <a href="#top" class="flex items-center gap-3 group focus:outline-none">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 text-white font-display font-bold text-lg flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-                        CE
+                    <!-- Replace 'profile.jpg' with the exact filename of your photo in your repository/folder -->
+                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-sky-500 to-sky-600 ring-2 ring-sky-200 dark:ring-sky-800 shadow-sm group-hover:scale-105 transition-transform shrink-0 flex items-center justify-center">
+                        <img 
+                            src="profile.jpg" 
+                            alt="Cherry Mel F. Estrada" 
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        >
+                        <span class="hidden w-full h-full items-center justify-center text-white font-display font-bold text-lg">CE</span>
                     </div>
                     <div class="flex flex-col">
                         <span class="font-display font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg leading-tight tracking-tight">Cherry Mel Estrada</span>
@@ -141,7 +144,7 @@
                     <a href="#contact" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors py-1">Contact</a>
                 </nav>
 
-                <!-- Theme Toggle, Download CTA & Mobile Menu Toggle -->
+                <!-- Theme Toggle, Direct Local PDF Download CTA & Mobile Menu Toggle -->
                 <div class="flex items-center gap-2 sm:gap-3">
                     <!-- Dark / Light Mode Toggle Button -->
                     <button
@@ -157,11 +160,16 @@
                         <span id="theme-label" class="hidden lg:inline">Dark Mode</span>
                     </button>
 
-                    <!-- Primary Header Download Resume Button -->
-                    <button type="button" onclick="downloadResumePDF()" class="download-pdf-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 active:scale-[0.98] text-white text-sm font-semibold shadow-sm hover:shadow transition-all cursor-pointer">
+                    <!-- Primary Header Download Resume Link (Calls local file in repository) -->
+                    <a 
+                        href="./CM_Estrada - Resume.pdf" 
+                        download="CM_Estrada - Resume.pdf"
+                        onclick="notifyDownload()"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 active:scale-[0.98] text-white text-sm font-semibold shadow-sm hover:shadow transition-all"
+                    >
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span>Download Resume</span>
-                    </button>
+                    </a>
 
                     <!-- Mobile Hamburger Button -->
                     <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" aria-expanded="false" class="md:hidden p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-slate-800 focus:outline-none transition-colors">
@@ -198,7 +206,7 @@
                         <div class="max-w-3xl">
                             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 dark:bg-sky-950/70 border border-sky-200 dark:border-sky-800/70 text-sky-700 dark:text-sky-300 text-xs sm:text-sm font-semibold mb-4">
                                 <span class="w-2 h-2 rounded-full bg-sky-500 dark:bg-sky-400 animate-pulse"></span>
-                                Available for IT Support &amp; Technical Operations Roles
+                                Available for IT Support & Technical Operations Roles
                             </div>
 
                             <h1 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-slate-900 dark:text-slate-100 tracking-tight mb-3">
@@ -206,7 +214,7 @@
                             </h1>
 
                             <p class="text-lg sm:text-xl font-semibold text-sky-700 dark:text-sky-400 mb-6 leading-snug">
-                                IT Support Specialist <span class="text-sky-300 dark:text-slate-600 mx-1">|</span> Hardware &amp; Software Troubleshooting <span class="text-sky-300 dark:text-slate-600 mx-1">|</span> End-User Support
+                                IT Support Specialist <span class="text-sky-300 dark:text-slate-600 mx-1">|</span> Hardware & Software Troubleshooting <span class="text-sky-300 dark:text-slate-600 mx-1">|</span> End-User Support
                             </p>
 
                             <!-- Quick Metadata Pills -->
@@ -227,10 +235,15 @@
 
                             <!-- Primary Hero Actions -->
                             <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-                                <button type="button" onclick="downloadResumePDF()" class="download-pdf-btn inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 active:scale-[0.98] text-white font-semibold text-sm sm:text-base shadow-md shadow-sky-600/20 dark:shadow-sky-500/15 transition-all cursor-pointer">
+                                <a 
+                                    href="./CM_Estrada - Resume.pdf" 
+                                    download="CM_Estrada - Resume.pdf"
+                                    onclick="notifyDownload()"
+                                    class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 active:scale-[0.98] text-white font-semibold text-sm sm:text-base shadow-md shadow-sky-600/20 dark:shadow-sky-500/15 transition-all"
+                                >
                                     <i data-lucide="file-down" class="w-5 h-5"></i>
                                     <span>Download Resume</span>
-                                </button>
+                                </a>
 
                                 <a href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-sky-50 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-slate-700 font-semibold text-sm sm:text-base transition-colors">
                                     <i data-lucide="send" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i>
@@ -256,7 +269,7 @@
                                         <i data-lucide="headset" class="w-4 h-4"></i>
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-slate-900 dark:text-slate-100">Customer &amp; Tech Support</p>
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100">Customer & Tech Support</p>
                                         <p class="text-slate-600 dark:text-slate-400 text-xs">IONOS Philippines (2025–Present)</p>
                                     </div>
                                 </li>
@@ -265,8 +278,8 @@
                                         <i data-lucide="monitor-check" class="w-4 h-4"></i>
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-slate-900 dark:text-slate-100">1st-Level IT &amp; Desktop Care</p>
-                                        <p class="text-slate-600 dark:text-slate-400 text-xs">Hardware, software &amp; ticket triage</p>
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100">1st-Level IT & Desktop Care</p>
+                                        <p class="text-slate-600 dark:text-slate-400 text-xs">Hardware, software & ticket triage</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-3">
@@ -274,8 +287,8 @@
                                         <i data-lucide="globe" class="w-4 h-4"></i>
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-slate-900 dark:text-slate-100">Web, Domain &amp; Email</p>
-                                        <p class="text-slate-600 dark:text-slate-400 text-xs">WordPress, DNS/domains &amp; billing</p>
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100">Web, Domain & Email</p>
+                                        <p class="text-slate-600 dark:text-slate-400 text-xs">WordPress, DNS/domains & billing</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-3">
@@ -335,7 +348,6 @@
                     
                     <!-- Role 1: IONOS Philippines -->
                     <article class="relative sm:pl-16">
-                        <!-- Timeline Dot -->
                         <div class="hidden sm:flex absolute left-3.5 top-7 w-5 h-5 rounded-full bg-sky-600 dark:bg-sky-400 ring-4 ring-sky-100 dark:ring-sky-950 items-center justify-center">
                             <span class="w-2 h-2 rounded-full bg-white dark:bg-slate-950"></span>
                         </div>
@@ -466,7 +478,7 @@
                         <i data-lucide="cpu" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 dark:text-slate-100">Skills &amp; Core Competencies</h2>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 dark:text-slate-100">Skills & Core Competencies</h2>
                         <p class="text-sm text-slate-500 dark:text-slate-400">Categorized technical, web, and operational strengths</p>
                     </div>
                 </div>
@@ -481,7 +493,7 @@
                             <h3 class="font-display font-bold text-lg text-slate-900 dark:text-slate-100">Technical Support</h3>
                         </div>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-slate-800 text-sky-900 dark:text-sky-200 border border-sky-100 dark:border-slate-700 text-sm font-medium">Hardware &amp; software troubleshooting</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-slate-800 text-sky-900 dark:text-sky-200 border border-sky-100 dark:border-slate-700 text-sm font-medium">Hardware & software troubleshooting</span>
                             <span class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-slate-800 text-sky-900 dark:text-sky-200 border border-sky-100 dark:border-slate-700 text-sm font-medium">Desktop maintenance</span>
                             <span class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-slate-800 text-sky-900 dark:text-sky-200 border border-sky-100 dark:border-slate-700 text-sm font-medium">First-level support</span>
                             <span class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-slate-800 text-sky-900 dark:text-sky-200 border border-sky-100 dark:border-slate-700 text-sm font-medium">Ticket management</span>
@@ -613,10 +625,15 @@
                             </p>
 
                             <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-                                <button type="button" onclick="downloadResumePDF()" class="download-pdf-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-white hover:bg-sky-50 dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-slate-950 active:scale-[0.98] text-sky-800 font-bold text-sm sm:text-base shadow-md transition-all cursor-pointer">
+                                <a 
+                                    href="./CM_Estrada - Resume.pdf" 
+                                    download="CM_Estrada - Resume.pdf"
+                                    onclick="notifyDownload()"
+                                    class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-white hover:bg-sky-50 dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-slate-950 active:scale-[0.98] text-sky-800 font-bold text-sm sm:text-base shadow-md transition-all"
+                                >
                                     <i data-lucide="download" class="w-5 h-5 text-sky-600 dark:text-slate-950"></i>
                                     <span>Download Resume</span>
-                                </button>
+                                </a>
 
                                 <a href="mailto:contact@cmestrada.com" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-sky-500/40 hover:bg-sky-500/60 dark:bg-slate-800/90 dark:hover:bg-slate-800 border border-white/25 dark:border-slate-700 text-white font-semibold text-sm sm:text-base transition-colors">
                                     <i data-lucide="mail" class="w-4 h-4 dark:text-sky-400"></i>
@@ -671,12 +688,17 @@
     <!-- ==================== FOOTER ==================== -->
     <footer class="border-t border-sky-100 dark:border-slate-800 bg-white dark:bg-midnight-900 py-8 transition-colors duration-200">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
-            <p>&copy; <span id="current-year">2026</span> CM Estrada. All rights reserved.</p>
+            <p>© <span id="current-year">2026</span> CM Estrada. All rights reserved.</p>
             <div class="flex items-center gap-5">
                 <a href="#top" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Back to Top</a>
-                <button type="button" onclick="downloadResumePDF()" class="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold hover:underline cursor-pointer">
+                <a 
+                    href="./CM_Estrada - Resume.pdf" 
+                    download="CM_Estrada - Resume.pdf"
+                    onclick="notifyDownload()"
+                    class="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold hover:underline"
+                >
                     Download Resume
-                </button>
+                </a>
             </div>
         </div>
     </footer>
@@ -792,9 +814,26 @@
             }, 3400);
         }
 
-        // Copy Email to Clipboard (using document.execCommand for broad iframe compatibility)
+        // Feedback toast when downloading local resume file
+        function notifyDownload() {
+            showToast('Downloading CM_Estrada - Resume.pdf...');
+        }
+
+        // Copy Email to Clipboard
         function copyEmailAddress() {
             const email = 'contact@cmestrada.com';
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(() => {
+                    showToast('Copied contact@cmestrada.com to clipboard!');
+                }).catch(() => {
+                    fallbackCopyEmail(email);
+                });
+            } else {
+                fallbackCopyEmail(email);
+            }
+        }
+
+        function fallbackCopyEmail(email) {
             try {
                 const tempInput = document.createElement('textarea');
                 tempInput.value = email;
@@ -807,242 +846,6 @@
                 showToast('Copied contact@cmestrada.com to clipboard!');
             } catch (err) {
                 showToast('Email: contact@cmestrada.com');
-            }
-        }
-
-        // Direct Single-Page PDF Generation & Blob Download matching CM_Estrada - Resume.pdf
-        function buildResumePDFBlob() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: 'portrait',
-                unit: 'pt',
-                format: 'letter' // 612 x 792 pt
-            });
-
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const marginX = 44;
-            const contentWidth = pageWidth - marginX * 2;
-            let y = 44;
-
-            const darkInk = [15, 23, 42];
-            const bodyInk = [30, 41, 59];
-            const mutedInk = [71, 85, 105];
-            const accentBlue = [2, 132, 199];
-            const ruleBlue = [186, 230, 253];
-
-            // --- HEADER ---
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(18);
-            doc.setTextColor(...darkInk);
-            doc.text('CHERRY MEL F. ESTRADA', marginX, y);
-            y += 16;
-
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(...accentBlue);
-            doc.text('IT Support Specialist | Hardware & Software Troubleshooting | End-User Support', marginX, y);
-            y += 14;
-
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...mutedInk);
-            doc.text('City of Cebu, Philippines 6000 | contact@cmestrada.com | +63 966 617 3281', marginX, y);
-            y += 9;
-
-            doc.setDrawColor(...accentBlue);
-            doc.setLineWidth(1.4);
-            doc.line(marginX, y, pageWidth - marginX, y);
-            y += 16;
-
-            // Helper to render section headers cleanly
-            function addSectionHeading(title) {
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(10);
-                doc.setTextColor(...accentBlue);
-                doc.text(title, marginX, y);
-                y += 4;
-                doc.setDrawColor(...ruleBlue);
-                doc.setLineWidth(0.8);
-                doc.line(marginX, y, pageWidth - marginX, y);
-                y += 12;
-            }
-
-            // Helper to render bullet lists with automatic wrapping
-            function addBulletList(bullets) {
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(9.2);
-                doc.setTextColor(...bodyInk);
-                const bulletIndent = 11;
-                const textWidth = contentWidth - bulletIndent;
-
-                bullets.forEach((item) => {
-                    doc.text('•', marginX + 2, y);
-                    const lines = doc.splitTextToSize(item, textWidth);
-                    doc.text(lines, marginX + bulletIndent, y);
-                    y += lines.length * 11.8 + 1.5;
-                });
-            }
-
-            // --- PROFESSIONAL SUMMARY ---
-            addSectionHeading('PROFESSIONAL SUMMARY');
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9.3);
-            doc.setTextColor(...bodyInk);
-            const summaryText = 'IT Support professional with experience in customer-facing technical support, hardware and software troubleshooting, ticket management, and website, domain, and email support. Background in first-level IT support and desktop maintenance, with foundational knowledge of computer networking. Combines technical problem-solving with customer communication and incident documentation to support efficient issue resolution.';
-            const summaryLines = doc.splitTextToSize(summaryText, contentWidth);
-            doc.text(summaryLines, marginX, y);
-            y += summaryLines.length * 12.2 + 10;
-
-            // --- PROFESSIONAL EXPERIENCE ---
-            addSectionHeading('PROFESSIONAL EXPERIENCE');
-
-            // Role 1
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(...darkInk);
-            doc.text('Customer Service Representative', marginX, y);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...accentBlue);
-            doc.text('June 2025 - Present', pageWidth - marginX, y, { align: 'right' });
-            y += 12;
-
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.3);
-            doc.setTextColor(...mutedInk);
-            doc.text('IONOS Philippines', marginX, y);
-            y += 12;
-
-            addBulletList([
-                'Provide customer support for account and billing-related inquiries, helping customers understand their concerns and available resolution options.',
-                'Troubleshoot basic WordPress and website-related issues to assist customers with website functionality concerns.',
-                'Manage customer emails and support tickets, documenting issues and coordinating escalations when additional assistance is required.',
-                'Assist customers with account and domain management inquiries.',
-                'Investigate email-related issues and guide customers through appropriate troubleshooting steps.'
-            ]);
-            y += 6;
-
-            // Role 2
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(...darkInk);
-            doc.text('Technical Assistant (Working Scholar)', marginX, y);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...accentBlue);
-            doc.text('December 2022 - June 2024', pageWidth - marginX, y, { align: 'right' });
-            y += 12;
-
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.3);
-            doc.setTextColor(...mutedInk);
-            doc.text('Department of Network and Technology Services, Asian College of Technology', marginX, y);
-            y += 12;
-
-            addBulletList([
-                'Troubleshot basic hardware and software issues to support the functionality of desktop computers and other IT equipment.',
-                'Monitored incident reports and service request tickets, following up on open items to support timely resolution.',
-                'Provided first-level technical assistance and responded to user inquiries.',
-                'Assisted with computer hardware inventory tracking and equipment records.',
-                'Performed desktop maintenance to help maintain computer usability and operational readiness.'
-            ]);
-            y += 6;
-
-            // Role 3
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(...darkInk);
-            doc.text('Paraprofessional', marginX, y);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...accentBlue);
-            doc.text('November 2021 - August 2022', pageWidth - marginX, y, { align: 'right' });
-            y += 12;
-
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.3);
-            doc.setTextColor(...mutedInk);
-            doc.text('Patronage of Mary Development School', marginX, y);
-            y += 12;
-
-            addBulletList([
-                'Prepared instructional materials, maintained attendance records, and supported classroom documentation.',
-                'Assisted with educational activities and edited learning videos to support instructional delivery.'
-            ]);
-            y += 8;
-
-            // --- EDUCATIONAL BACKGROUND ---
-            addSectionHeading('EDUCATIONAL BACKGROUND');
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(...darkInk);
-            doc.text('Bachelor of Science in Computer Engineering', marginX, y);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...accentBlue);
-            doc.text('August 2021 - April 2026', pageWidth - marginX, y, { align: 'right' });
-            y += 12;
-
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9.2);
-            doc.setTextColor(...bodyInk);
-            doc.text('Asian College of Technology | Cebu City, Philippines  —  Degree completed in April 2026', marginX, y);
-            y += 16;
-
-            // --- SKILLS ---
-            addSectionHeading('SKILLS');
-            const skillRows = [
-                ['Technical Support:', 'Hardware and software troubleshooting, desktop maintenance, first-level support, ticket management.'],
-                ['Web and Account Support:', 'WordPress troubleshooting, website support, domain management, email troubleshooting, account billing support.'],
-                ['IT Fundamentals:', 'Basic networking, computer system servicing, basic programming.'],
-                ['Tools and Applications:', 'Microsoft Word, Excel, PowerPoint, WordPress, Google Workspace.'],
-                ['Professional Skills:', 'Customer communication, incident documentation, issue escalation, problem-solving.']
-            ];
-
-            const labelColWidth = 132;
-            const valueColWidth = contentWidth - labelColWidth;
-
-            skillRows.forEach(([category, details]) => {
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(9.2);
-                doc.setTextColor(...darkInk);
-                doc.text(category, marginX, y);
-
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(...bodyInk);
-                const detailLines = doc.splitTextToSize(details, valueColWidth);
-                doc.text(detailLines, marginX + labelColWidth, y);
-                y += detailLines.length * 11.8 + 2.5;
-            });
-
-            return doc.output('blob');
-        }
-
-        // Immediate Blob Download Handler for "CM_Estrada - Resume.pdf"
-        function downloadResumePDF() {
-            const filename = 'CM_Estrada - Resume.pdf';
-            showToast(`Downloading ${filename}...`);
-
-            try {
-                if (window.jspdf && window.jspdf.jsPDF) {
-                    const pdfBlob = buildResumePDFBlob();
-                    const blobUrl = URL.createObjectURL(pdfBlob);
-
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = blobUrl;
-                    downloadLink.download = filename;
-                    downloadLink.style.display = 'none';
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-
-                    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-                } else {
-                    showToast('PDF library loading—please try again in a moment.');
-                }
-            } catch (error) {
-                console.error('Resume download error:', error);
-                showToast('Unable to download PDF automatically. Please try again.');
             }
         }
     </script>
